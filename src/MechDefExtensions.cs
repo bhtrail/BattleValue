@@ -28,6 +28,11 @@ namespace BattleValue
             {
                 return 0;
             }
+
+            if (mechDef.Chassis != null && mechDef.Chassis.ChassisTags.ContainsAny(Core.IgnorableTagSet))
+            {
+                return 0;
+            }
             
             var core_sets = Core.Settings;
 
