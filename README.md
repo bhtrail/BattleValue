@@ -20,6 +20,10 @@ Calculations could be customized by `Settings` in `mod.json`
 |OffensiveItems|Array. Format - same as before|
 |ClanMechTag|Tag value for clan mechs|
 |IgnorableUnitTags|List of tags for units that should be ignored by calculator|
+|RotaryCannonsTags|Tags to recognize RACs
+|UltraCannonsTags|Tags to recognize UACs
+|StreakSRMTags|Tags to recognize Streaks
+|OneShotWeapons|Tags to recognize One-Shot weapons
 
 ### Specials
 
