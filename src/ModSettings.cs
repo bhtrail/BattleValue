@@ -16,7 +16,15 @@ namespace BattleValue
 
         public string ClanMechTag { get; private set; } = "ClanMech";
         public List<string> IgnorableUnitTags { get; private set; } = new List<string>() { "fake_vehicle" };
-    }
+
+        public List<string> RotaryCannonsTags { get; private set; } = new List<string>();
+
+        public List<string> UltraCannonsTags { get; private set; } = new List<string>();
+
+        public List<string> StreakSRMTags { get; private set; } = new List<string>();
+
+        public List<string> OneShotWeapons { get; private set; } = new List<string>();
+     }
 
     internal class ItemFactorDef
     {

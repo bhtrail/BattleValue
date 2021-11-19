@@ -33,7 +33,7 @@ namespace BattleValue
             {
                 return 0;
             }
-            
+
             var core_sets = Core.Settings;
 
             float ArmorTypeModifier = 1.0f;
@@ -249,7 +249,7 @@ namespace BattleValue
 
             var heatDissipation = 6 + (10 + totalHeatSinks) * heatPerHeatsink - movementHeat;
 
-            var totalWeaponHeat = weps.Sum(item => item?.HeatGenerated ?? 0) / 3;
+            var totalWeaponHeat = weps.Sum(item => ModifyWeaponHeat(item)) / 3;
 
             Core.Log($"Heat Dissipation : {heatDissipation}, Total Weapon Heat : {totalWeaponHeat}");
 
@@ -283,7 +283,7 @@ namespace BattleValue
             float runningHeat = 0;
             foreach (var wep in hotWeps)
             {
-                var wepHeat = (wep?.HeatGenerated ?? 0) / 3; // normalize to TT values
+                var wepHeat = ModifyWeaponHeat(wep) / 3; // normalize to TT values
                 var wepBV = ModifyWeaponBV(wep, hasArtemis);
 
                 Core.Log($"Weapon : {wep?.Description.Name}, Heat :{wepHeat}, BV: {wepBV}, Running Heat : {runningHeat}");
@@ -312,6 +312,26 @@ namespace BattleValue
             BV = (int)Math.Round(DefensiveBV + OffensiveBV);
             // Correct on Pilot's skill value
             return BV;
+        }
+
+        private static float ModifyWeaponHeat(WeaponDef? wepDef)
+        {
+            if (wepDef == null)
+                return 0;
+
+            var subType = wepDef.WeaponSubType;
+            float coefficient = 1f;
+            if (Core.Settings.RotaryCannonsTags.Any(item => wepDef.IsCategory(item)))
+                coefficient = 2;
+            else if (Core.Settings.RotaryCannonsTags.Any(item => wepDef.IsCategory(item)))
+                coefficient = 6;
+            else if (Core.Settings.StreakSRMTags.Any(item => wepDef.IsCategory(item)))
+                coefficient = 0.5f;
+            else if (Core.Settings.OneShotWeapons.Any(item => wepDef.IsCategory(item)))
+                coefficient = 0.25f;
+
+
+            return wepDef.HeatGenerated * coefficient;
         }
 
         private static float ModifyWeaponBV(WeaponDef? weaponDef, bool hasArtemis)
