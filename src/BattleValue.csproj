@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net48</TargetFramework>
+    <Nullable>enable</Nullable>
+    <AssemblySearchPaths>
+      $(AssemblySearchPaths);
+      $(ReferencePath);
+    </AssemblySearchPaths>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="BattleTech.Common">
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="CustomComponents">
+      <HintPath>..\..\CustomComponents\CustomComponents.dll</HintPath>
+    </Reference>
+    <Reference Include="MechEngineer">
+      <HintPath>..\..\MechEngineer\MechEngineer.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,43 @@
+{
+    "Name": "BattleValue",
+    "Enabled": true,
+    "Hidden": true,
+    "Version": "0.0.1",
+    "Description": "BattleValue calculator",
+    "Author": "bhtrail",
+    "DLL": "BattleValue.dll",
+    "DLLEntryPoint": "BattleValue.Core.Init",
+    "DependsOn": [
+        "CustomComponents",
+        "MechEngineer"
+    ],
+    "Settings": {
+        "DefensiveItems": [
+            {
+                "Tag": "AMS",
+                "BattleValue": 32.0,
+                "AmmoBattleValue": 11.0
+            },
+            {
+                "Tag": "ECM",
+                "BattleValue": 61.0
+            },
+            {
+                "Tag": "ProtoECM",
+                "BattleValue": 61.0
+            },
+            {
+                "Tag": "Probe",
+                "BattleValue": 10.0
+            },
+            {
+                "Tag": "EWS",
+                "BattleValue": 39.0
+            },
+            {
+                "Tag": "ProtoEWS",
+                "BattleValue": 39.0
+            }
+        ]
+    }
+}
