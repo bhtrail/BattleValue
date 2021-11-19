@@ -9,6 +9,7 @@ using MechEngineer.Features.OverrideTonnage;
 using MechEngineer.Features.ComponentExplosions;
 using MechEngineer.Features.Engines;
 using MechEngineer.Features.Engines.Helper;
+using HBS.Collections;
 
 namespace BattleValue
 {
@@ -23,6 +24,11 @@ namespace BattleValue
         {
             if (mechDef == null) return 0;
 
+            if (mechDef.MechTags == null || mechDef.MechTags.ContainsAny(Core.IgnorableTagSet))
+            {
+                return 0;
+            }
+            
             var core_sets = Core.Settings;
 
             float ArmorTypeModifier = 1.0f;

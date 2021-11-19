@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
+using HBS.Collections;
 
 namespace BattleValue
 {
@@ -16,6 +17,7 @@ namespace BattleValue
         private static FileLogAppender? logAppender;
 
         internal static ModSettings Settings { get; private set; } = new ModSettings();
+        internal static TagSet? IgnorableTagSet = null;
 
         public static void Init(string directory, string settingsJson)
         {
@@ -25,6 +27,7 @@ namespace BattleValue
             Settings = JsonConvert.DeserializeObject<ModSettings>(settingsJson) ?? new ModSettings();
             Log($"Settings : {JsonConvert.SerializeObject(Settings, Formatting.Indented)}");
 
+            IgnorableTagSet = new TagSet(Settings.IgnorableUnitTags);
             var harmonyInstance = HarmonyInstance.Create("bhtrail.battlevalue");
             harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
         }

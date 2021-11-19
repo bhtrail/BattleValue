@@ -4,7 +4,7 @@ BattleTech 2018 mod which provide function to calculate BV value for units of ga
 Calculates battle value (BV) for given unit. Implemented as extension function to `MechDef` and `VehicleDef` classes of the BattleTech 2018.
 For usage include reference to this module to your project and call `CalculateBattleValue` function with optional parameter of `PilotDef` type.
 
-This mod depends on [CustomComponents](https://github.com/BattletechModders/CustomComponents) and [MechEngineer](https://github.com/BattletechModders/MechEngineer) mods, versions 2.0. At the moment, MechEngineer should be build against custom branch, located [here](https://github.com/bhtrail/MechEngineer/tree/Engine_Publicized) 
+This mod depends on [CustomComponents](https://github.com/BattletechModders/CustomComponents) and [MechEngineer](https://github.com/BattletechModders/MechEngineer) mods, versions 2.0.
 
 ## Settings
 Calculations could be customized by `Settings` in `mod.json`
@@ -19,6 +19,7 @@ Calculations could be customized by `Settings` in `mod.json`
 |DefensiveItems|Array of item BV redefinition. Usually, mod takes BV value from `ItemDef.BattleValue` field of game object, but if user needs to override values for some reasons, it could be done here. Objects in `DefensiveItems` contains 3 fields - `Tag`, `BattleValue` and `AmmoBattleValue`. `Tag` helps identify item in mech' inventory, `BattleValue` defines BV for this item and `AmmoBattleValue` gives BV for ammo of given item
 |OffensiveItems|Array. Format - same as before|
 |ClanMechTag|Tag value for clan mechs|
+|IgnorableUnitTags|List of tags for units that should be ignored by calculator|
 
 ### Specials
 
