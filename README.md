@@ -34,5 +34,5 @@ Calculations could be customized by `Settings` in `mod.json`
 
 ### TODO
 
-[ ] Vehicle BV calculations. Now it just reflects `BattleValue` field from VehicleDef
-[ ] Adds Pilot skills corrections
+- [ ] Vehicle BV calculations. Now it just reflects `BattleValue` field from VehicleDef
+- [ ] Adds Pilot skills corrections
