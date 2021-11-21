@@ -182,9 +182,19 @@ namespace BattleValue
 
             jumpJetsCount = Math.Min(jumpJetsCount, movement.JumpJetCount);
 
-            Core.Log($"Walk MP:{movement.WalkMovementPoint}, Run MP:{movement.RunMovementPoint}, JumpJets MP: {movement.JumpJetCount}");
+            var runMovementPoint = movement.RunMovementPoint;
 
-            var maxMove = Math.Max(jumpJetsCount, (int)Math.Max(movement.WalkMovementPoint, movement.RunMovementPoint));
+            if (hasMASC)
+            {
+                runMovementPoint = movement.WalkMovementPoint * 2;
+            }
+            else if (hasTSM)
+            {
+                runMovementPoint = (movement.WalkMovementPoint + 2) * 1.5f;
+            }
+            Core.Log($"Walk MP:{movement.WalkMovementPoint}, Run MP:{runMovementPoint}, JumpJets MP: {movement.JumpJetCount}");
+
+            var maxMove = Math.Max(jumpJetsCount, (int)Math.Max(movement.WalkMovementPoint, runMovementPoint));
             var defenceFactor = GetDefenceFactor(maxMove);
 
             Core.Log($"Defence Factor {defenceFactor} for {maxMove} move");
@@ -297,10 +307,10 @@ namespace BattleValue
                 OffensiveBV += wepBV;
             }
 
-            OffensiveBV += mechDef.Chassis.Tonnage;
+            OffensiveBV += mechDef.Chassis.Tonnage * ((hasTSM) ? 1.5f : 1.0f);
 
             // TODO: multiply for movement factor
-            var movementFactor = (int)(movement.RunMovementPoint + Math.Round(jumpJetsCount / 2.0f));
+            var movementFactor = (int)(maxMove + Math.Round(jumpJetsCount / 2.0f));
             var moveFactorValue = MovementRateFactor[movementFactor];
             Core.Log($"Movement rate: {movementFactor}, Factor value : {moveFactorValue}");
 
