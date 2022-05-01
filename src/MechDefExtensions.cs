@@ -70,7 +70,7 @@ namespace BattleValue
             // Second - attempt to find weights item (typically placed in engine type items)
             if (!factorHasBeenRedefined)
             {
-                var weightInfo = mechEngine.Weights;
+                var weightInfo = mechEngine.WeightFactors;
 
                 var reservedSlots = weightInfo.ReservedSlots;
                 var engineWeightRate = weightInfo.EngineFactor;

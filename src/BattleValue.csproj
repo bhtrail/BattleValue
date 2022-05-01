@@ -1,19 +1,28 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net48</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
     <Nullable>enable</Nullable>
-    <AssemblySearchPaths>
-      $(AssemblySearchPaths);
+	  <ReferencePath>
+		  $(BattleTechGameDir)\BattleTech_Data\Managed;
+		  $(BattleTechGameDir)\Mods\MechEngineer;
+		  $(BattleTechGameDir)\Mods\CustomComponents;
+		  $(BattleTechGameDir)\Mods\Timeline;
+	  </ReferencePath>
+
+	  <AssemblySearchPaths>
       $(ReferencePath);
     </AssemblySearchPaths>
+	  <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+	  <ModLocationPath>$(BattleTechGameDir)\Mods\BattleValue</ModLocationPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-  </ItemGroup>
+	<Target Name="CopyDLLtoModDir" AfterTargets="AfterBuild">
+		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModLocationPath)" />
+	</Target>
 
-  <ItemGroup>
+
+	<ItemGroup>
     <Reference Include="0Harmony">
       <Private>false</Private>
     </Reference>
@@ -27,14 +36,24 @@
       <Private>false</Private>
     </Reference>
     <Reference Include="CustomComponents">
-      <HintPath>..\..\CustomComponents\CustomComponents.dll</HintPath>
+		<Private>false</Private>
     </Reference>
     <Reference Include="MechEngineer">
-      <HintPath>..\..\MechEngineer\MechEngineer.dll</HintPath>
+		<Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <Private>false</Private>
     </Reference>
+	  <Reference Include="System">
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="System.Core">
+		  <Private>False</Private>
+	  </Reference>
+	  <Reference Include="Newtonsoft.Json">
+		  <SpecificVersion>False</SpecificVersion>
+		  <Private>False</Private>
+	  </Reference>
   </ItemGroup>
 
 </Project>

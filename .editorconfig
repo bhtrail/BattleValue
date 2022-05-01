@@ -2,3 +2,7 @@
 
 # CS8602: Dereference of a possibly null reference.
 dotnet_diagnostic.CS8602.severity = suggestion
+
+[*.{cs,vb}]
+tab_width=4
+indent_size=4
