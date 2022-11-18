@@ -34,7 +34,7 @@ namespace BattleValue
                 return 0;
             }
 
-            var core_sets = Core.Settings;
+            var coreSettings = Core.Settings;
 
             float ArmorTypeModifier = 1.0f;
             float StructureTypeModifier = 1.0f;
@@ -58,14 +58,14 @@ namespace BattleValue
 
             // Calculate Defensive Value
             // Get armor type modifier
-            ArmorTypeModifier = GetItemFactor(mechDef.Inventory, core_sets.ArmorTypes, ArmorTypeModifier);
-            StructureTypeModifier = GetItemFactor(mechDef.Inventory, core_sets.StructureTypes, StructureTypeModifier);
-            GyroTypeModifier = GetItemFactor(mechDef.Inventory, core_sets.GyroTypes, GyroTypeModifier);
+            ArmorTypeModifier = GetItemFactor(mechDef.Inventory, coreSettings.ArmorTypes, ArmorTypeModifier);
+            StructureTypeModifier = GetItemFactor(mechDef.Inventory, coreSettings.StructureTypes, StructureTypeModifier);
+            GyroTypeModifier = GetItemFactor(mechDef.Inventory, coreSettings.GyroTypes, GyroTypeModifier);
 
             // Get engine type modifer
             // First - attempt find overrided item from settings
             bool factorHasBeenRedefined = false;
-            (EngineTypeModifier, factorHasBeenRedefined) = GetItemFactorModified(mechDef.Inventory, core_sets.EngineTypes);
+            (EngineTypeModifier, factorHasBeenRedefined) = GetItemFactorModified(mechDef.Inventory, coreSettings.EngineTypes);
 
             // Second - attempt to find weights item (typically placed in engine type items)
             if (!factorHasBeenRedefined)
@@ -89,12 +89,12 @@ namespace BattleValue
             // TODO : Add calc for positive or negative defence factors
             // Positive factors
             // Get CASE, TSM and other specials
-            var CASELocations = mechDef.Inventory.Where(item => ClassifyItem(item, core_sets.Specials.CASE) || item.Is<CASEComponent>())
+            var CASELocations = mechDef.Inventory.Where(item => ClassifyItem(item, coreSettings.Specials.CASE) || item.Is<CASEComponent>())
                 .Select(item => item.MountedLocation);
 
-            var hasTSM = mechDef.Inventory.Any(item => ClassifyItem(item, new string[] { core_sets.Specials.TSM, core_sets.Specials.ProtoTSM }));
+            var hasTSM = mechDef.Inventory.Any(item => ClassifyItem(item, new string[] { coreSettings.Specials.TSM, coreSettings.Specials.ProtoTSM }));
 
-            var hasMASC = mechDef.Inventory.Any(item => ClassifyItem(item, core_sets.Specials.MASC));
+            var hasMASC = mechDef.Inventory.Any(item => ClassifyItem(item, coreSettings.Specials.MASC));
 
             Core.Log($"Has CASE on {string.Join(", ", CASELocations)}, TSM:{hasTSM}, MASC:{hasMASC}");
 
@@ -102,7 +102,7 @@ namespace BattleValue
 
             var ammoBoxes = mechDef.Inventory.Where(item => (item.ComponentDefType == ComponentType.AmmunitionBox));
             // enumerate defense items
-            foreach (var defItem in core_sets.DefensiveItems)
+            foreach (var defItem in coreSettings.DefensiveItems)
             {
                 var items = mechDef.Inventory.Where(item => ClassifyItem(item, defItem.Tag));
                 var itemsCount = items.Count();
@@ -217,7 +217,7 @@ namespace BattleValue
 
             // Gets Cooling parameters
             // Total heatsinks on mech
-            var totalHeatSinks = Engine.MatchingCount(mechDef.Inventory, mechEngine.HeatSinkDef.Def);
+            var totalHeatSinks = mechDef.Inventory.Select(r => r.Def).Count(d => d == mechEngine.HeatSinkDef.Def);
             var engineHeatsinks = mechEngine.CoreDef.Rating / 25;
 
             Core.Log($"Total Heatsinks {totalHeatSinks}, engine heat sinks {engineHeatsinks}");
