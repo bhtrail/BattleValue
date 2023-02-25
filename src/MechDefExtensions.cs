@@ -2,14 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CustomComponents;
-using MechEngineer.Features.OverrideTonnage;
 using MechEngineer.Features.ComponentExplosions;
-using MechEngineer.Features.Engines;
 using MechEngineer.Features.Engines.Helper;
-using HBS.Collections;
 
 namespace BattleValue
 {
@@ -36,12 +31,12 @@ namespace BattleValue
 
             var coreSettings = Core.Settings;
 
-            float ArmorTypeModifier = 1.0f;
-            float StructureTypeModifier = 1.0f;
-            float EngineTypeModifier = 1.0f;
-            float GyroTypeModifier = 0.5f;
+            var ArmorTypeModifier = 1.0f;
+            var StructureTypeModifier = 1.0f;
+            var EngineTypeModifier = 1.0f;
+            var GyroTypeModifier = 0.5f;
 
-            int BV = 0;
+            var BV = 0;
             var mechStructurePoints = (float)Math.Round(mechDef.MechDefMaxStructure / 5.0f);
             var mechArmorPoints = (float)Math.Round(mechDef.MechDefAssignedArmor / 5.0f);
 
@@ -54,7 +49,7 @@ namespace BattleValue
             }
 
             var isClanMech = IsClanMech(mechDef);
-            EngineType engineType = EngineType.Standard;
+            var engineType = EngineType.Standard;
 
             // Calculate Defensive Value
             // Get armor type modifier
@@ -64,7 +59,7 @@ namespace BattleValue
 
             // Get engine type modifer
             // First - attempt find overrided item from settings
-            bool factorHasBeenRedefined = false;
+            var factorHasBeenRedefined = false;
             (EngineTypeModifier, factorHasBeenRedefined) = GetItemFactorModified(mechDef.Inventory, coreSettings.EngineTypes);
 
             // Second - attempt to find weights item (typically placed in engine type items)
@@ -89,7 +84,7 @@ namespace BattleValue
             // TODO : Add calc for positive or negative defence factors
             // Positive factors
             // Get CASE, TSM and other specials
-            var CASELocations = mechDef.Inventory.Where(item => ClassifyItem(item, coreSettings.Specials.CASE) || item.Is<CASEComponent>())
+            var CASELocations = mechDef.Inventory.Where(item => ClassifyItem(item, coreSettings.Specials.CASE))
                 .Select(item => item.MountedLocation);
 
             var hasTSM = mechDef.Inventory.Any(item => ClassifyItem(item, new string[] { coreSettings.Specials.TSM, coreSettings.Specials.ProtoTSM }));
@@ -111,7 +106,7 @@ namespace BattleValue
                 {
                     Core.Log($"Found {itemsCount} of {defItem.Tag}");
                     // Check defensive ammo
-                    int ammoCount = 0;
+                    var ammoCount = 0;
                     if (defItem.AmmoBattleValue != 0)
                     {
                         var ammoCat = (items.First().Def as WeaponDef)?.AmmoCategoryValue;
@@ -330,7 +325,7 @@ namespace BattleValue
                 return 0;
 
             var subType = wepDef.WeaponSubType;
-            float coefficient = 1f;
+            var coefficient = 1f;
             if (Core.Settings.RotaryCannonsTags.Any(item => wepDef.IsCategory(item)))
                 coefficient = 2;
             else if (Core.Settings.RotaryCannonsTags.Any(item => wepDef.IsCategory(item)))
@@ -364,8 +359,8 @@ namespace BattleValue
 
         private static float GetDefenceFactor(int TMM)
         {
-            int TMMBonus = 6;
-            for (int i = 0; i < TMMToBonusTable.Length; ++i)
+            var TMMBonus = 6;
+            for (var i = 0; i < TMMToBonusTable.Length; ++i)
             {
                 if (TMM <= TMMToBonusTable[i])
                 {
@@ -437,8 +432,8 @@ namespace BattleValue
 
         internal static (float, EngineType) ClassifyEngine(int reservedSlots, float weightRate)
         {
-            float factor = 1.0f;
-            EngineType engType = EngineType.Standard;
+            var factor = 1.0f;
+            var engType = EngineType.Standard;
             if (reservedSlots != 0)
             {
                 if (reservedSlots == 4 && weightRate == 0.75f)
