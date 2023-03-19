@@ -1,4 +1,4 @@
-﻿using Harmony;
+﻿using HarmonyLib;
 using HBS.Logging;
 using System;
 using System.IO;
@@ -28,8 +28,8 @@ namespace BattleValue
             Log($"Settings : {JsonConvert.SerializeObject(Settings, Formatting.Indented)}");
 
             IgnorableTagSet = new TagSet(Settings.IgnorableUnitTags);
-            var harmonyInstance = HarmonyInstance.Create("bhtrail.battlevalue");
-            harmonyInstance.PatchAll(Assembly.GetExecutingAssembly());
+
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "bhtrail.battlevalue");
         }
 
         #region Logging

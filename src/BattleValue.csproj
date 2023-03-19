@@ -1,59 +1,73 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net472</TargetFramework>
-    <Nullable>enable</Nullable>
-	  <ReferencePath>
-		  $(BattleTechGameDir)\BattleTech_Data\Managed;
-		  $(BattleTechGameDir)\Mods\MechEngineer;
-		  $(BattleTechGameDir)\Mods\CustomComponents;
-		  $(BattleTechGameDir)\Mods\Timeline;
-	  </ReferencePath>
-
-	  <AssemblySearchPaths>
-      $(ReferencePath);
-    </AssemblySearchPaths>
-	  <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
-	  <ModLocationPath>$(BattleTechGameDir)\Mods\BattleValue</ModLocationPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net472</TargetFramework>
+		<Nullable>enable</Nullable>
+		<AssemblySearchPaths>
+			{HintPathFromItem};
+			$(BattleTechGameDir)\BattleTech_Data\Managed;
+			$(BattleTechGameDir)\Mods\MechEngineer;
+			$(BattleTechGameDir)\Mods\CustomComponents;
+			$(BattleTechGameDir)\Mods\Timeline;
+		</AssemblySearchPaths>
+		<DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+		<ModLocationPath>$(BattleTechGameDir)\Mods\BattleValue</ModLocationPath>
+		<NoWarn>CS0436</NoWarn>
+	</PropertyGroup>
 
 	<Target Name="CopyDLLtoModDir" AfterTargets="AfterBuild">
 		<Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModLocationPath)" />
 	</Target>
 
+	<ItemGroup>
+		<!-- Allows to access internal and private members without Harmony Traverse, do not use if inheriting from classes made public -->
+		<PackageReference Include="BepInEx.AssemblyPublicizer.MSBuild">
+			<PrivateAssets>All</PrivateAssets>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+
+		<!-- Automatically set the version number of your assembly based on git tags and semver -->
+		<PackageReference Include="GitVersion.MsBuild">
+			<PrivateAssets>All</PrivateAssets>
+		</PackageReference>
+
+		<!-- Harmony is needed to hook into the game -->
+		<PackageReference Include="HarmonyX">
+			<PrivateAssets>All</PrivateAssets>
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
 
 	<ItemGroup>
-    <Reference Include="0Harmony">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp-firstpass">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="BattleTech.Common">
-      <Private>false</Private>
-    </Reference>
-    <Reference Include="CustomComponents">
-		<Private>false</Private>
-    </Reference>
-    <Reference Include="MechEngineer">
-		<Private>false</Private>
-    </Reference>
-    <Reference Include="UnityEngine.CoreModule">
-      <Private>false</Private>
-    </Reference>
-	  <Reference Include="System">
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="System.Core">
-		  <Private>False</Private>
-	  </Reference>
-	  <Reference Include="Newtonsoft.Json">
-		  <SpecificVersion>False</SpecificVersion>
-		  <Private>False</Private>
-	  </Reference>
-  </ItemGroup>
+		<Reference Include="Assembly-CSharp" Publicize="true">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="Assembly-CSharp-firstpass">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="BattleTech.Common">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="CustomComponents">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="MechEngineer">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="UnityEngine.CoreModule">
+			<Private>false</Private>
+		</Reference>
+		<Reference Include="System">
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="System.Core">
+			<Private>False</Private>
+		</Reference>
+		<Reference Include="Newtonsoft.Json">
+			<SpecificVersion>False</SpecificVersion>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
 
 </Project>
