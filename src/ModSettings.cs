@@ -14,7 +14,7 @@ namespace BattleValue
         public List<EquipmentInfo> DefensiveItems { get; private set; } = new();
         public List<EquipmentInfo> OffensiveItems { get; private set; } = new();
 
-        public string ClanMechTag { get; private set; } = "ClanMech";
+        public string ClanMechTag { get; set; } = "ClanMech";
         public List<string> IgnorableUnitTags { get; private set; } = new List<string>() { "fake_vehicle" };
 
         public List<string> RotaryCannonsTags { get; private set; } = new List<string>();
